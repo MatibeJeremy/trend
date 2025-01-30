@@ -29,7 +29,7 @@ export const UserRegistrationForm = () => {
         name: "",
         email: "",
         password: "",
-        user_type: "",
+        user_type: userType,
         confirm_password: "",
     });
 
@@ -62,10 +62,6 @@ export const UserRegistrationForm = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        setFormData((prevData) => ({
-            ...prevData,
-            user_type: userType ?? "",
-        }));
         if (validateForm()) {
             RegisterUser(dispatch, formData).then(() => {
                 setIsRegistering(false);

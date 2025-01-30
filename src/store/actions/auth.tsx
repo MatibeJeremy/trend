@@ -1,10 +1,10 @@
 import {Dispatch} from "redux";
-import {ICreateUser} from "@/app/components/interfaces";
+import {UserFormData} from "@/app/components/interfaces";
 import axios from "axios";
 import {toast} from "react-toastify";
 import {setRegistrationLoading, setRegistrationSuccess} from "@/store/reducers/auth";
 
-export const RegisterUser = async (dispatch: Dispatch, payload: ICreateUser) => {
+export const RegisterUser = async (dispatch: Dispatch, payload: UserFormData) => {
     dispatch(setRegistrationLoading(true));
     axios
         .post(`${process.env.NEXT_PUBLIC_SERVER}/users`, payload)

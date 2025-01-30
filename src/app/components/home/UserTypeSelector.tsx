@@ -17,7 +17,7 @@ export default function UserTypeSelector() {
             borderRadius: "9999px",
         }} fullWidth variant="contained" style={{ marginBottom: "1.5rem" }}>
                 <Button
-                    onClick={() => {
+                    onClick={ async() => {
                         dispatch(setSelectedProfile("INFLUENCER"));
                         router.push("/auth");
                     }}
@@ -35,7 +35,7 @@ export default function UserTypeSelector() {
                     </Stack>
                 </Button>
             <Button
-                onClick={() => {
+                onClick={async () => {
                     dispatch(setSelectedProfile("BRAND"));
                     router.push("/auth");
                 }}

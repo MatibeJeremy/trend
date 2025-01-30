@@ -9,7 +9,7 @@ export interface ICreateUser {
 
 export interface UserFormData {
     name: string
-    user_type?: string
+    user_type?: string | null
     email: string
     password: string
     confirm_password: string
