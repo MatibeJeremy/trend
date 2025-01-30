@@ -172,11 +172,9 @@ export const UserRegistrationForm = () => {
                             display: !isRegistering ? "none" : "block",
                         }}
                     />
-                    {registrationLoading ? <CircularProgress/>  : <Button type="submit" variant="contained" fullWidth sx={{ mt: 3, mb: 2, backgroundColor: "#2c003e", textTransform: "none" }}>
-                        {!isRegistering ? "Log in" : "Register"}
+                   <Button type="submit" variant="contained" fullWidth sx={{ mt: 3, mb: 2, backgroundColor: "#2c003e", textTransform: "none" }}>
+                       {registrationLoading ? <CircularProgress size={40}/> : !isRegistering ? "Log in" : "Register"}
                     </Button>
-                    }
-
                 </form>
 
                 <Divider sx={{ my: 2 }}>OR</Divider>
