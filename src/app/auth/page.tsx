@@ -1,4 +1,4 @@
-import {UserRegistrationForm} from "@/app/components/auth/UserRegistrationForm";
+import {UserRegistrationForm} from "@/app/components/auth/register/UserRegistrationForm";
 import {Container} from "@mui/material";
 
 const Auth = () => {

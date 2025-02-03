@@ -14,16 +14,19 @@ import {Google, LinkedIn} from "@mui/icons-material";
 import {RegisterUser} from "@/store/actions/auth";
 import {useRouter} from "next/navigation";
 import {UserFormData} from "@/app/components/interfaces";
+import {toast} from "react-toastify";
+import {setRegistrationLoading} from "@/store/reducers/auth";
 
 export const UserRegistrationForm = () => {
-    const [isRegistering, setIsRegistering] = useState<boolean>(true);
     const dispatch = useAppDispatch();
     const router = useRouter();
     const userType = useAppSelector(state => state.auth.selectedProfile);
     const registrationLoading = useAppSelector(
         state => state.auth.registerLoading
     );
-    const registrationSuccess = useAppSelector((state) => state.auth.registrationSuccess);
+    const registrationSuccess = useAppSelector(
+        (state) => state.auth.registrationSuccess
+    );
 
     const [formData, setFormData] = useState<UserFormData>({
         name: "",
@@ -46,33 +49,26 @@ export const UserRegistrationForm = () => {
     const validateForm = (): boolean => {
         const newErrors: Partial<UserFormData> = {}
 
-        if (!formData.name && isRegistering) newErrors.name = "Name is required"
+        if (!formData.name) newErrors.name = "Name is required"
         if (!formData.email) newErrors.email = "Email is required"
         else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Email is invalid"
         if (!formData.password) newErrors.password = "Password is required"
-        if(isRegistering){
-            if (formData.password !== formData.confirm_password) {
-                newErrors.confirm_password = "Passwords do not match"
-            }
+        if (formData.password !== formData.confirm_password) {
+             newErrors.confirm_password = "Passwords do not match"
         }
-        console.log(newErrors)
         setErrors(newErrors)
         return Object.keys(newErrors).length === 0
     }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
+        if(formData.user_type == ""){
+            toast.error("User type is required, kindly choose.");
+            dispatch(setRegistrationLoading(false));
+            router.push("/");
+        }
         if (validateForm()) {
-            RegisterUser(dispatch, formData).then(() => {
-                setIsRegistering(false);
-                setFormData({
-                    name: "",
-                    email: "",
-                    password: "",
-                    user_type: "",
-                    confirm_password: "",
-                });
-            });
+            RegisterUser(dispatch, formData);
         }
     }
 
@@ -81,9 +77,15 @@ export const UserRegistrationForm = () => {
             router.push("/")
         }
         if(registrationSuccess){
-            setIsRegistering(false);
+            setFormData({
+                name: "",
+                email: "",
+                password: "",
+                user_type: "",
+                confirm_password: "",
+            });
         }
-    },[])
+    },[registrationSuccess])
 
     return (
         <Container maxWidth="sm" sx={{
@@ -98,18 +100,18 @@ export const UserRegistrationForm = () => {
                     display: "flex",
                     fontSize: "24px",
                 }}>
-                    {isRegistering ? "User Registration" : "Log In"}
+                    User Registration
                 </Typography>
                 <Typography sx={{
                     color: "black",
                     fontFamily: "Roboto",
                     display: "flex",
                 }}>
-                    {isRegistering ? "If you already have an account," : "Dont have an account?"}
+                   If you already have an account,
                 </Typography>
                 <Typography
                     onClick={() => {
-                        setIsRegistering(!isRegistering);
+                        router.push("/auth/login");
                     }}
                     sx={{
                     color: "blue",
@@ -118,7 +120,7 @@ export const UserRegistrationForm = () => {
                     cursor: "pointer",
                     width: "15%"
                 }}>
-                    {isRegistering ? "Log in" : "Register"}
+                    Log In
                 </Typography>
                 <form onSubmit={handleSubmit}>
                     <TextField
@@ -130,9 +132,6 @@ export const UserRegistrationForm = () => {
                         onChange={handleChange}
                         error={!!errors.name}
                         helperText={errors.name}
-                        sx={{
-                            display: !isRegistering ? "none" : "block",
-                        }}
                     />
                     <TextField
                         fullWidth
@@ -168,12 +167,9 @@ export const UserRegistrationForm = () => {
                         onChange={handleChange}
                         error={!!errors.confirm_password}
                         helperText={errors.confirm_password}
-                        sx={{
-                            display: !isRegistering ? "none" : "block",
-                        }}
                     />
                    <Button type="submit" variant="contained" fullWidth sx={{ mt: 3, mb: 2, backgroundColor: "#2c003e", textTransform: "none" }}>
-                       {registrationLoading ? <CircularProgress size={40}/> : !isRegistering ? "Log in" : "Register"}
+                       {registrationLoading ? <CircularProgress size={40}/> :  "Register"}
                     </Button>
                 </form>
 
@@ -183,7 +179,6 @@ export const UserRegistrationForm = () => {
                     fullWidth
                     variant="outlined"
                     startIcon={<Google />}
-                    // onClick={() => handleOAuthLogin("Google")}
                     sx={{
                         mb: 2,
                         color: "#4285F4",
@@ -201,7 +196,6 @@ export const UserRegistrationForm = () => {
                     fullWidth
                     variant="outlined"
                     startIcon={<LinkedIn />}
-                    // onClick={() => handleOAuthLogin("LinkedIn")}
                     sx={{
                         color: "#0077B5",
                         borderColor: "#0077B5",
