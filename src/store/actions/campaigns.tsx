@@ -5,6 +5,7 @@ import {setCampaigns, setLoading} from "@/store/reducers/campaigns";
 import {LogOutUser} from "@/store/actions/auth";
 
 export const fetchCampaigns = async (dispatch: Dispatch, token: string) => {
+    dispatch(setLoading(true));
     axios
         .get(`${process.env.NEXT_PUBLIC_SERVER}/campaigns/influencer`,{
             headers: {
