@@ -1,3 +1,5 @@
+"use client"
+
 import {UserRegistrationForm} from "@/app/components/auth/register/UserRegistrationForm";
 import {useAppSelector} from "@/store";
 import {UserLoginForm} from "@/app/components/auth/login/UserLoginForm";
