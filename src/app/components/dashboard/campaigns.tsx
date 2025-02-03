@@ -18,15 +18,6 @@ import React, {useEffect} from "react";
 import {fetchCampaigns} from "@/store/actions/campaigns";
 import {useAppDispatch, useAppSelector} from "@/store";
 
-// Styled components for custom effects
-const StyledCard = styled(Card)(({ theme }) => ({
-    transition: "transform 0.3s, box-shadow 0.3s",
-    "&:hover": {
-        transform: "translateY(-5px)",
-        boxShadow: theme.shadows[10],
-    },
-}))
-
 const ColoredChip = styled(Chip)(({ theme }) => ({
     margin: theme.spacing(0.5),
     "& .MuiChip-avatar": {
