@@ -17,9 +17,12 @@ export interface UserFormData {
 export interface ICampaign {
     id: string;
     title: string;
+    brand: string;
+    category: string;
     description: string;
     deadline: Date;
     user_id: string;
+    compensation: number;
     campaignId: string;
 };
 

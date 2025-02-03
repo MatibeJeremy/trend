@@ -35,21 +35,6 @@ const ColoredChip = styled(Chip)(({ theme }) => ({
     },
 }))
 
-// Helper function to get the icon for each platform
-// const getPlatformIcon = (platform: string) => {
-//     switch (platform) {
-//         case "instagram":
-//             return <Instagram />
-//         case "youtube":
-//             return <YouTube />
-//         case "twitter":
-//             return <Twitter />
-//         case "facebook":
-//             return <Facebook />
-//         default:
-//             return null
-//     }
-// }
 
 export default function Campaigns() {
     const dispatch = useAppDispatch();
@@ -65,50 +50,58 @@ export default function Campaigns() {
                 Available Campaigns
             </Typography>
             <Grid container spacing={3}>
-                {campaigns.map((campaign) => (
-                    <Grid item xs={12} sm={6} md={4} key={campaign.id}>
-                        <StyledCard>
-                            <CardContent>
-                                <Typography variant="h6" component="div" gutterBottom>
-                                    {campaign.title}
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary" paragraph>
-                                    {campaign.description}
-                                </Typography>
-                                <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                                    {/*<Box display="flex" alignItems="center">*/}
-                                    {/*    <Avatar*/}
-                                    {/*        src={`https://logo.clearbit.com/${campaign.brand.toLowerCase()}.com`}*/}
-                                    {/*        alt={campaign.brand}*/}
-                                    {/*    />*/}
-                                    {/*    <Typography variant="subtitle2" sx={{ ml: 1 }}>*/}
-                                    {/*        {campaign.brand}*/}
-                                    {/*    </Typography>*/}
-                                    {/*</Box>*/}
-                                    <Tooltip title={`Category`}>
-                                        <Chip icon={<AttachMoney />} label={`1000`} color="success" size="small" />
-                                    </Tooltip>
+                {campaigns.map((campaign) => {
+                    const status = new Date(campaign.deadline) > new Date();
+
+                    return (
+                        <Grid item xs={12} sm={6} md={4} key={campaign.id}>
+                            <StyledCard>
+                                <CardContent>
+                                    <Typography variant="h6" component="div" gutterBottom>
+                                        {campaign.title}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary" paragraph>
+                                        {campaign.description}
+                                    </Typography>
+                                    <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                                        <Box display="flex" alignItems="center">
+                                            <Avatar
+                                                src={`https://logo.clearbit.com/${campaign.brand.toLowerCase()}.com`}
+                                                alt={campaign.brand}
+                                            />
+                                            <Typography variant="subtitle2" sx={{ ml: 1 }}>
+                                                {campaign.brand}
+                                            </Typography>
+                                        </Box>
+                                        <Tooltip title={`$${campaign.compensation}`}>
+                                            <Chip
+                                                icon={<AttachMoney />}
+                                                label={`$${campaign.compensation}`}
+                                                color="success"
+                                                size="small"
+                                            />
+                                        </Tooltip>
+                                    </Box>
+                                    <ColoredChip avatar={<Avatar>#</Avatar>} label={campaign.category} color="primary" />
+                                    <Typography sx={{ marginTop: "5%", fontSize: "14px" }}>
+                                        Status: {status ? "Active" : "Expired"}
+                                    </Typography>
+                                    <Typography sx={{ marginTop: "5%", fontSize: "14px" }}>
+                                        Deadline: {new Date(campaign.deadline).toLocaleDateString()}
+                                    </Typography>
+                                </CardContent>
+                                <Box display="flex" justifyContent="space-between" p={1}>
+                                    <IconButton aria-label="add to favorites">
+                                        <Favorite />
+                                    </IconButton>
+                                    <IconButton aria-label="share">
+                                        <Share />
+                                    </IconButton>
                                 </Box>
-                                {/*<Box display="flex" flexWrap="wrap" mb={2}>*/}
-                                {/*    {campaign.platforms.map((platform) => (*/}
-                                {/*        <Tooltip key={platform} title={platform}>*/}
-                                {/*            <IconButton size="small">{getPlatformIcon(platform)}</IconButton>*/}
-                                {/*        </Tooltip>*/}
-                                {/*    ))}*/}
-                                {/*</Box>*/}
-                                <ColoredChip avatar={<Avatar>#</Avatar>} label={'Technology'} color="primary" />
-                            </CardContent>
-                            <Box display="flex" justifyContent="space-between" p={1}>
-                                <IconButton aria-label="add to favorites">
-                                    <Favorite />
-                                </IconButton>
-                                <IconButton aria-label="share">
-                                    <Share />
-                                </IconButton>
-                            </Box>
-                        </StyledCard>
-                    </Grid>
-                ))}
+                            </StyledCard>
+                        </Grid>
+                    );
+                })}
             </Grid>
         </Box>
     )

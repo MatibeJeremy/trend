@@ -18,9 +18,9 @@ export const fetchCampaigns = async (dispatch: Dispatch, token: string) => {
         })
         .catch((error) => {
             dispatch(setLoading(false));
-            // if(error.response.data.statusCode == 401){
-            //     LogOutUser(dispatch);
-            // }
+            if(error.response.data.statusCode == 401){
+                LogOutUser(dispatch);
+            }
             toast.error(error.response.data.message || error.response.message[0]);
             return error;
         });
