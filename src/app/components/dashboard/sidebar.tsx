@@ -62,7 +62,9 @@ const Sidebar: React.FC<SidebarProps> = () => {
                         pointer: "cursor",
                     }}
                     onClick={() => {
-                        LogOutUser(dispatch)
+                        if(item.text === "Logout") {
+                            LogOutUser(dispatch)
+                        }
                     }}
                     >
                         <ListItemIcon>{item.icon}</ListItemIcon>

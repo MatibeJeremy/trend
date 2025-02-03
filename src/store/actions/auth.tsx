@@ -37,7 +37,7 @@ export const LoginUser = async (dispatch: Dispatch, payload: ILoginUser) => {
         .then((response) => {
             dispatch(setLoginLoading(false));
             dispatch(setUserData(response.data.user));
-            dispatch(setToken(response.data.token));
+            dispatch(setToken(response.data.access_token));
             toast.success( "User logged in successfully" );
             dispatch(setLoginSuccess(true));
             return response;

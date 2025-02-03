@@ -77,7 +77,7 @@ export const UserLoginForm = () => {
                     </Typography>
                     <Typography
                         component="span"
-                        onClick={() => router.push("/auth/register")}
+                        onClick={() => router.push("/auth")}
                         sx={{
                             color: "blue",
                             cursor: "pointer",
