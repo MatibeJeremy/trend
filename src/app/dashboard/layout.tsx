@@ -3,9 +3,10 @@
 import type React from "react"
 import { useState } from "react"
 import { styled } from "@mui/material/styles"
-import { AppBar, Toolbar, IconButton, Typography, Box } from "@mui/material"
+import {AppBar, Toolbar, IconButton, Typography, Box, Avatar} from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
 import Sidebar from "@/app/components/dashboard/sidebar";
+import {useAppSelector} from "@/store";
 
 const drawerWidth = 240
 
@@ -34,9 +35,16 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
     const [open, setOpen] = useState(true)
+    const username = useAppSelector((state) => state.auth.user?.name);
 
     const handleDrawerOpen = () => {
         setOpen(true)
+    }
+
+    const stringAvatar = (name: string) => {
+        return {
+            children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+        };
     }
 
     const handleDrawerClose = () => {
@@ -45,8 +53,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
     return (
         <Box sx={{ display: "flex" }}>
-            <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: "white" }}>
-                <Toolbar>
+            <AppBar
+                position="fixed"
+                sx={{
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                    backgroundColor: "white",
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    paddingX: 2
+                }}
+            >
+                <Toolbar sx={{ flexGrow: 1 }}>
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
@@ -56,13 +74,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div" sx={{
-                        color: "black"
-                    }}>
+                    <Typography variant="h6" noWrap component="div" sx={{ color: "black" }}>
                         Trend
                     </Typography>
                 </Toolbar>
+
+                {/* Push Avatar to the far right */}
+                <Box sx={{ marginLeft: "auto", marginRight: 2 }}>
+                    <Avatar {...stringAvatar(`${username}`)} />
+                </Box>
             </AppBar>
+
             <Sidebar open={open} onClose={handleDrawerClose} />
             <Main open={open}>
                 <Toolbar />
