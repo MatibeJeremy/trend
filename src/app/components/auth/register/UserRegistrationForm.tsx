@@ -169,7 +169,7 @@ export const UserRegistrationForm = () => {
                         helperText={errors.confirm_password}
                     />
                    <Button type="submit" variant="contained" fullWidth sx={{ mt: 3, mb: 2, backgroundColor: "#2c003e", textTransform: "none" }}>
-                       {registrationLoading ? <CircularProgress size={40}/> :  "Register"}
+                       {registrationLoading ? <CircularProgress size={24}/> :  "Register"}
                     </Button>
                 </form>
 

@@ -32,14 +32,18 @@ export default function Campaigns() {
     const campaigns = useAppSelector(state => state.campaigns.campaigns);
     const loading = useAppSelector(state => state.campaigns.loading);
 
-    const getToken = async() => {
-        await setToken(localStorage.getItem("token"));
-    }
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const storedToken = localStorage.getItem("token");
+            setToken(storedToken);
+        }
+    }, []);
 
     useEffect(() => {
-        getToken();
-        fetchCampaigns(dispatch, token);
-    }, []);
+        if (token) {
+            fetchCampaigns(dispatch, token);
+        }
+    }, [token]);
     return (
         <Box sx={{ flexGrow: 1, p: 3 }}>
             <Typography variant="h4" gutterBottom>
