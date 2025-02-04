@@ -41,11 +41,21 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         setOpen(true)
     }
 
-    const stringAvatar = (name: string) => {
+    const stringAvatar = (name?: string) => {
+        if (!name || name.trim().length === 0) {
+            return { children: "U" };
+        }
+
+        const nameParts = name.trim().split(' ');
+
         return {
-            children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+            children: nameParts.length > 1
+                ? `${nameParts[0][0]}${nameParts[1][0]}`
+                : nameParts[0][0],
         };
-    }
+    };
+
+
 
     const handleDrawerClose = () => {
         setOpen(false)

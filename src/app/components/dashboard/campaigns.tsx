@@ -67,7 +67,7 @@ export default function Campaigns() {
                             </Card>
                         </Grid>
                     ))
-                    : campaigns.map((campaign) => {
+                    : campaigns?.map((campaign) => {
                         const status = new Date(campaign.deadline) > new Date();
 
                         return (
