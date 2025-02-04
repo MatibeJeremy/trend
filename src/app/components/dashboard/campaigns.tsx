@@ -1,6 +1,5 @@
 "use client"
 
-
 import {
     Grid,
     Card,
@@ -29,12 +28,17 @@ const ColoredChip = styled(Chip)(({ theme }) => ({
 
 export default function Campaigns() {
     const dispatch = useAppDispatch();
-    const token = useAppSelector(state => state.auth.token);
+    const [token, setToken] = React.useState<string | null>(null);
     const campaigns = useAppSelector(state => state.campaigns.campaigns);
     const loading = useAppSelector(state => state.campaigns.loading);
 
+    const getToken = async() => {
+        await setToken(localStorage.getItem("token"));
+    }
+
     useEffect(() => {
-        fetchCampaigns(dispatch, token)
+        getToken();
+        fetchCampaigns(dispatch, token);
     }, []);
     return (
         <Box sx={{ flexGrow: 1, p: 3 }}>

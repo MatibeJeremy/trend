@@ -2,9 +2,8 @@ import {Dispatch} from "redux";
 import axios from "axios";
 import {toast} from "react-toastify";
 import {setCampaigns, setLoading} from "@/store/reducers/campaigns";
-import {LogOutUser} from "@/store/actions/auth";
 
-export const fetchCampaigns = async (dispatch: Dispatch, token: string) => {
+export const fetchCampaigns = async (dispatch: Dispatch, token: string | null) => {
     dispatch(setLoading(true));
     axios
         .get(`${process.env.NEXT_PUBLIC_SERVER}/campaigns/influencer`,{
@@ -19,9 +18,9 @@ export const fetchCampaigns = async (dispatch: Dispatch, token: string) => {
         })
         .catch((error) => {
             dispatch(setLoading(false));
-            if(error.response.data.statusCode == 401){
-                LogOutUser(dispatch);
-            }
+            // if(error.response.data.statusCode == 401){
+            //     LogOutUser(dispatch);
+            // }
             toast.error(error.response.data.message || error.response.message[0]);
             return error;
         });

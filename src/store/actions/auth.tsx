@@ -7,7 +7,7 @@ import {
     setLoginLoading,
     setLoginSuccess,
     setRegistrationLoading,
-    setRegistrationSuccess, setToken,
+    setRegistrationSuccess,
     setUserData
 } from "@/store/reducers/auth";
 import {clearCampaigns} from "@/store/reducers/campaigns";
@@ -37,7 +37,8 @@ export const LoginUser = async (dispatch: Dispatch, payload: ILoginUser) => {
         .then((response) => {
             dispatch(setLoginLoading(false));
             dispatch(setUserData(response.data.user));
-            dispatch(setToken(response.data.access_token));
+            const token = response.data.access_token;
+            localStorage.setItem("token", token);
             toast.success( "User logged in successfully" );
             dispatch(setLoginSuccess(true));
             return response;
@@ -52,5 +53,6 @@ export const LoginUser = async (dispatch: Dispatch, payload: ILoginUser) => {
 
 export const LogOutUser = async (dispatch: Dispatch) => {
     dispatch(clearAuth());
-    dispatch(clearCampaigns())
+    dispatch(clearCampaigns());
+    localStorage.removeItem("token");
 }
